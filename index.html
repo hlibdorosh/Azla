@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html lang="sk">
+
+<head>
+    <meta charset="utf-8">
+    <title>Formulár</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+<div class="form-container">
+    <form id="phoneForm" action="https://form2mail.iolab.sk/form2mail.php" method="post" enctype="multipart/form-data">
+
+        <!-- Povinné pole pre API kľúč -->
+        <input type="hidden" name="apikey" value="0421f9d82990fa4f096920b8ce8747a2">
+
+        <!-- Formulár -->
+        <div class="form-row">
+            <label for="name">Meno:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-row">
+            <label for="surname">Priezvisko:</label>
+            <input type="text" id="surname" name="surname" required>
+        </div>
+        <div class="form-row">
+            Pohlavie:
+            <label><input type="radio" name="gender" value="muz" required> Muž</label>
+            <label><input type="radio" name="gender" value="zena"> Žena</label>
+        </div>
+        <div class="form-row">
+            <label for="dob">Dátum narodenia:</label>
+            <input type="date" id="dob" name="dateOfBirth" required>
+        </div>
+        <div class="form-row">
+            <label for="age">Vek:</label>
+            <input type="number" id="age" name="age" required readonly>
+        </div>
+
+        <!-- Email field with custom validation -->
+        <div class="form-row">
+            <label for="email">E-mail:</label>
+            <input type="text" id="email" name="email" required>
+            <p id="emailError" style="color:red; display:none;">Please enter a valid email based on the requirements.</p>
+        </div>
+
+        <!-- Dropdowns for Phone selection -->
+        <div class="form-row">
+            <label for="zoznam1">Phone Brand:</label>
+            <select id="zoznam1" name="zoznam1" required>
+                <option value="">Vyberte</option>
+                <option value="apple">Apple</option>
+                <option value="samsung">Samsung</option>
+                <option value="xiaomi">Xiaomi</option>
+            </select>
+        </div>
+        <div class="form-row">
+            <label for="zoznam2">Phone Model:</label>
+            <select id="zoznam2" name="zoznam2" required>
+                <option value="">Vyberte</option>
+            </select>
+        </div>
+        <div class="form-row">
+            <label for="zoznam3">Memory Storage:</label>
+            <select id="zoznam3" name="zoznam3" required>
+                <option value="">Vyberte</option>
+            </select>
+        </div>
+
+        <!-- Display Price -->
+        <div class="form-row">
+            <p id="phonePrice">Total Phone Price: 0 EUR</p>
+        </div>
+
+        <!-- Accessories Section -->
+        <div class="form-row">
+            <label>Add Accessories:</label>
+            <div>
+                <label><input type="checkbox" id="protectorCheckbox" name="accessory" value="protector"> Screen Protector (5 EUR)</label>
+            </div>
+            <div>
+                <label><input type="checkbox" id="caseCheckbox" name="accessory" value="case"> Phone Case</label>
+            </div>
+            <div id="caseOptions" style="display: none;">
+                <label>Choose Case Type:</label>
+                <div>
+                    <label><input type="radio" id="plainColorCase" name="caseType" value="plainColor"> Plain Color Case (10 EUR)</label>
+                </div>
+                <div id="colorList" style="display: none;">
+                    <label for="colors">Select a Color:</label>
+                    <select id="colors" name="color">
+                        <option value="">Choose a color</option>
+                        <option value="red">Red</option>
+                        <option value="blue">Blue</option>
+                        <option value="black">Black</option>
+                        <option value="green">Green</option>
+                        <option value="white">White</option>
+                    </select>
+                </div>
+                <div>
+                    <label><input type="radio" id="imageCase" name="caseType" value="image"> Case with Image (15 EUR)</label>
+                </div>
+                <div id="imageList" style="display: none;">
+                    <label for="images">Select an Image:</label>
+                    <select id="images" name="image">
+                        <option value="">Choose an image</option>
+                        <option value="nature">Nature</option>
+                        <option value="cityscape">Cityscape</option>
+                        <option value="abstract">Abstract Art</option>
+                        <option value="animals">Animals</option>
+                        <option value="custom">Custom Design</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label><input type="checkbox" id="chargerCheckbox" name="accessory" value="charger"> Charger (15 EUR)</label>
+            </div>
+        </div>
+
+
+        <!-- Total Accessories Price -->
+        <div class="form-row">
+            <p id="accessoriesPrice">Total Accessories Price: 0 EUR</p>
+        </div>
+
+        <!-- Total Price -->
+        <div class="form-row">
+            <p id="totalPrice">Total Price: 0 EUR</p>
+        </div>
+
+        <div class="form-row full-width">
+            <input type="submit" value="Odoslať">
+        </div>
+
+    </form>
+</div>
+
+<!-- Modal -->
+<div id="successModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Your form has been successfully submitted!</p>
+    </div>
+</div>
+
+</body>
+
+</html>
