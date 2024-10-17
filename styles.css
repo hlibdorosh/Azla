@@ -115,6 +115,40 @@ form input[type="submit"]:hover {
     cursor: pointer;
 }
 
+/* Make the custom note input larger */
+#customNoteInput {
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none; /* Prevent resizing */
+    box-sizing: border-box;
+}
+
+/* Style the container for the custom note */
+.custom-note-container {
+    margin-top: 10px;
+    position: relative;
+}
+
+/* Style the character counter */
+.char-counter {
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    font-size: 12px;
+    color: #666;
+}
+
+/* Adjust the label to be aligned with a larger input */
+.custom-note-container label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
 /* Make the form responsive for mobile */
 @media screen and (max-width: 768px) {
     .form-row {

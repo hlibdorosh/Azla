@@ -1,137 +1,29 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Email validation
-    const emailInput = document.getElementById("email");
-    const emailError = document.getElementById("emailError");
+    // Form validation and error message handling
     const form = document.getElementById("phoneForm");
 
-    emailInput.addEventListener("input", function () {
-        if (validateEmail(emailInput.value)) {
-            emailError.style.display = "none";
-        } else {
-            emailError.style.display = "block";
-        }
-    });
+    // Fields and error elements
+    const emailInput = document.getElementById("email");
+    const emailError = document.getElementById("emailError");
 
-    function validateEmail(email) {
-        const emailRegex = /^[^\s@]{3,}@[^\s@]+\.[a-zA-Z]{2,4}$/;
-        return emailRegex.test(email) && email.split("@")[1].split(".").length > 1;
-    }
+    const nameInput = document.getElementById("name");
+    const nameError = createErrorElement(nameInput, "Please enter a valid name.");
 
-    form.addEventListener("submit", function (e) {
-        if (!validateEmail(emailInput.value)) {
-            e.preventDefault();
-            emailError.style.display = "block";
-            alert("Please correct the email format.");
-        } else {
-            e.preventDefault(); // Prevent actual submission for modal demonstration
-            showModal();
-        }
-    });
+    const surnameInput = document.getElementById("surname");
+    const surnameError = createErrorElement(surnameInput, "Please enter a valid surname.");
 
-    // Age calculation
     const dobInput = document.getElementById("dob");
-    const ageInput = document.getElementById("age");
+    const dobError = createErrorElement(dobInput, "Please select a valid date of birth.");
 
-    dobInput.addEventListener("change", function () {
-        const dob = new Date(dobInput.value);
-        const age = calculateAge(dob);
-        if (!isNaN(age)) {
-            ageInput.value = age;
-        } else {
-            ageInput.value = '';
-        }
-    });
-
-    function calculateAge(dob) {
-        const today = new Date();
-        let age = today.getFullYear() - dob.getFullYear();
-        const monthDifference = today.getMonth() - dob.getMonth();
-        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
-            age--;
-        }
-        return age;
-    }
+    const genderInputs = document.getElementsByName("gender");
+    const genderError = createErrorElement(genderInputs[0].parentElement, "Please select a gender.");
 
     // Phone selection dropdown
-    const phonePrices = {
-        apple: 800,
-        samsung: 700,
-        xiaomi: 600
-    };
-
-    const storagePrices = {
-        '64GB': 50,
-        '128GB': 100,
-        '256GB': 150,
-        '512GB': 200
-    };
-
-    const phoneModels = {
-        apple: ['iPhone 12', 'iPhone 13', 'iPhone 14'],
-        samsung: ['Galaxy S21', 'Galaxy S22', 'Galaxy A52'],
-        xiaomi: ['Mi 11', 'Redmi Note 10', 'Poco X3']
-    };
-
-    const memoryOptions = {
-        'iPhone 12': ['64GB', '128GB', '256GB'],
-        'iPhone 13': ['128GB', '256GB', '512GB'],
-        'iPhone 14': ['128GB', '256GB', '512GB'],
-        'Galaxy S21': ['128GB', '256GB'],
-        'Galaxy S22': ['128GB', '256GB'],
-        'Galaxy A52': ['128GB', '256GB'],
-        'Mi 11': ['128GB', '256GB'],
-        'Redmi Note 10': ['64GB', '128GB'],
-        'Poco X3': ['64GB', '128GB']
-    };
-
     const zoznam1 = document.getElementById("zoznam1");
     const zoznam2 = document.getElementById("zoznam2");
     const zoznam3 = document.getElementById("zoznam3");
-    const phonePrice = document.getElementById("phonePrice");
-    const accessoriesPrice = document.getElementById("accessoriesPrice");
-    const totalPrice = document.getElementById("totalPrice");
 
-    let currentPhonePrice = 0;
-    let currentStoragePrice = 0;
-    let currentAccessoriesPrice = 0;
-
-    zoznam1.addEventListener("change", function () {
-        zoznam2.innerHTML = '<option value="">Vyberte</option>';
-        const selectedBrand = zoznam1.value;
-
-        if (phoneModels[selectedBrand]) {
-            phoneModels[selectedBrand].forEach(function (model) {
-                const newOption = document.createElement("option");
-                newOption.value = model;
-                newOption.textContent = model;
-                zoznam2.appendChild(newOption);
-            });
-            currentPhonePrice = phonePrices[selectedBrand] || 0;
-            updateTotalPrice();
-        }
-    });
-
-    zoznam2.addEventListener("change", function () {
-        zoznam3.innerHTML = '<option value="">Vyberte</option>';
-        const selectedModel = zoznam2.value;
-
-        if (memoryOptions[selectedModel]) {
-            memoryOptions[selectedModel].forEach(function (memory) {
-                const newOption = document.createElement("option");
-                newOption.value = memory;
-                newOption.textContent = memory;
-                zoznam3.appendChild(newOption);
-            });
-        }
-    });
-
-    zoznam3.addEventListener("change", function () {
-        const selectedStorage = zoznam3.value;
-        currentStoragePrice = storagePrices[selectedStorage] || 0;
-        updateTotalPrice();
-    });
-
-    // Case Options Logic
+    // Accessory section elements
     const caseCheckbox = document.getElementById("caseCheckbox");
     const caseOptions = document.getElementById("caseOptions");
     const colorList = document.getElementById("colorList");
@@ -139,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const plainColorCase = document.getElementById("plainColorCase");
     const imageCase = document.getElementById("imageCase");
 
-    // Display or hide case options based on checkbox
+    // Event listener to show or hide case options
     caseCheckbox.addEventListener("change", function () {
         if (caseCheckbox.checked) {
             caseOptions.style.display = "block";
@@ -171,9 +63,11 @@ document.addEventListener("DOMContentLoaded", function () {
         updateAccessoryPrice();
     });
 
-    // Accessory price calculation logic (updated for case types)
+    // Function to update accessory price
     const protectorCheckbox = document.getElementById("protectorCheckbox");
     const chargerCheckbox = document.getElementById("chargerCheckbox");
+    const accessoriesPrice = document.getElementById("accessoriesPrice");
+    let currentAccessoriesPrice = 0;
 
     protectorCheckbox.addEventListener("change", updateAccessoryPrice);
     chargerCheckbox.addEventListener("change", updateAccessoryPrice);
@@ -193,25 +87,79 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function updateTotalPrice() {
-        const total = currentPhonePrice + currentStoragePrice + currentAccessoriesPrice;
-        totalPrice.textContent = `Total Price: ${total} EUR`;
+        const phonePrice = 0; // Placeholder, integrate with your existing phone price calculation
+        const total = phonePrice + currentAccessoriesPrice;
+        const totalPriceElement = document.getElementById("totalPrice");
+        totalPriceElement.textContent = `Total Price: ${total} EUR`;
     }
 
-    // Modal functionality
-    const modal = document.getElementById("successModal");
-    const closeModal = document.querySelector(".close");
+    // Helper functions for form validation
+    form.addEventListener("submit", function (e) {
+        let isValid = true;
 
-    function showModal() {
-        modal.style.display = "block";
-    }
-
-    closeModal.onclick = function () {
-        modal.style.display = "none";
-    };
-
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
+        if (!validateEmail(emailInput.value)) {
+            emailError.style.display = "block";
+            isValid = false;
+        } else {
+            emailError.style.display = "none";
         }
-    };
+
+        if (nameInput.value.trim() === "") {
+            nameError.style.display = "block";
+            isValid = false;
+        } else {
+            nameError.style.display = "none";
+        }
+
+        if (surnameInput.value.trim() === "") {
+            surnameError.style.display = "block";
+            isValid = false;
+        } else {
+            surnameError.style.display = "none";
+        }
+
+        // Ensure at least one gender is selected
+        if (!isGenderSelected()) {
+            genderError.style.display = "block";
+            isValid = false;
+        } else {
+            genderError.style.display = "none";
+        }
+
+        if (dobInput.value === "") {
+            dobError.style.display = "block";
+            isValid = false;
+        } else {
+            dobError.style.display = "none";
+        }
+
+        // Prevent form submission if any validation fails
+        if (!isValid) {
+            e.preventDefault();
+            alert("Please correct the errors before submitting.");
+        }
+    });
+
+    function validateEmail(email) {
+        const emailRegex = /^[^\s@]{3,}@[^\s@]+\.[a-zA-Z]{2,4}$/;
+        return emailRegex.test(email) && email.split("@")[1].split(".").length > 1;
+    }
+
+    function createErrorElement(inputElement, errorMessage) {
+        const errorElement = document.createElement("p");
+        errorElement.style.color = "red";
+        errorElement.style.display = "none";
+        errorElement.textContent = errorMessage;
+        inputElement.parentElement.appendChild(errorElement);
+        return errorElement;
+    }
+
+    function isGenderSelected() {
+        for (let i = 0; i < genderInputs.length; i++) {
+            if (genderInputs[i].checked) {
+                return true;
+            }
+        }
+        return false;
+    }
 });

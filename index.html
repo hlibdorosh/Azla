@@ -11,7 +11,7 @@
 <body>
 
 <div class="form-container">
-    <form id="phoneForm" action="https://form2mail.iolab.sk/form2mail.php" method="post" enctype="multipart/form-data">
+    <form id="phoneForm" action="https://form2mail.iolab.sk/form2mail.php" method="post" enctype="multipart/form-data" novalidate>
 
         <!-- Povinné pole pre API kľúč -->
         <input type="hidden" name="apikey" value="0421f9d82990fa4f096920b8ce8747a2">
@@ -54,6 +54,8 @@
                 <option value="apple">Apple</option>
                 <option value="samsung">Samsung</option>
                 <option value="xiaomi">Xiaomi</option>
+                <option value="huawei">Huawei</option>
+                <option value="oneplus">OnePlus</option>
             </select>
         </div>
         <div class="form-row">
@@ -118,7 +120,6 @@
                 <label><input type="checkbox" id="chargerCheckbox" name="accessory" value="charger"> Charger (15 EUR)</label>
             </div>
         </div>
-
 
         <!-- Total Accessories Price -->
         <div class="form-row">
