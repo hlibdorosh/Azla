@@ -20,8 +20,8 @@
         <input type="hidden" name="sender" value="Hlib">
         <input type="hidden" name="to" value="gnomikvtebe@gmail.com">
         <input type="hidden" name="subject" value="LALALALALA">
-        <input type="hidden" name="redirectOk" value="https://google.com">
-        <input type="hidden" name="redirectFalse" value="https://chatgpt.com">
+        <input type="hidden" name="redirectOk" value="https://yourdomain.com/success.html">
+        <input type="hidden" name="redirectFalse" value="https://yourdomain.com/error.html">
 
         <!-- Formulár -->
         <div class="form-row">
@@ -69,17 +69,16 @@
             <label for="zoznam2">Phone Model:</label>
             <select id="zoznam2" name="zoznam2" required>
                 <option value="">Vyberte</option>
-                <!-- Models will be dynamically populated based on JavaScript -->
             </select>
         </div>
         <div class="form-row">
             <label for="zoznam3">Memory Storage:</label>
             <select id="zoznam3" name="zoznam3" required>
                 <option value="">Vyberte</option>
-                <option value="64GB">64GB</option>
-                <option value="128GB">128GB</option>
-                <option value="256GB">256GB</option>
-                <option value="512GB">512GB</option>
+                <option value="64GB" data-price="50">64GB - 50 EUR</option>
+                <option value="128GB" data-price="100">128GB - 100 EUR</option>
+                <option value="256GB" data-price="150">256GB - 150 EUR</option>
+                <option value="512GB" data-price="200">512GB - 200 EUR</option>
             </select>
         </div>
 
@@ -144,17 +143,19 @@
         </div>
 
         <div class="form-row full-width">
-            <input type="submit" value="Odoslať">
+            <button type="button" id="showSummaryBtn">Odoslať</button>
         </div>
 
     </form>
 </div>
 
-<!-- Modal -->
-<div id="successModal" class="modal" style="display:none;">
+<!-- Summary Modal -->
+<div id="summaryModal" class="modal" style="display:none;">
     <div class="modal-content">
         <span class="close">&times;</span>
-        <p>Your form has been successfully submitted!</p>
+        <h2>Order Summary</h2>
+        <div id="summaryContent"></div>
+        <button id="confirmOrderBtn">Confirm Order</button>
     </div>
 </div>
 

@@ -1,54 +1,40 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Form validation and error message handling
     const form = document.getElementById("phoneForm");
+    const summaryModal = document.getElementById("summaryModal");
+    const summaryContent = document.getElementById("summaryContent");
+    const showSummaryBtn = document.getElementById("showSummaryBtn");
+    const confirmOrderBtn = document.getElementById("confirmOrderBtn");
+    const closeModal = document.querySelector(".close");
 
-    // Fields and error elements
-    const emailInput = document.getElementById("email");
-    const emailError = document.getElementById("emailError");
-
-    const nameInput = document.getElementById("name");
-    const nameError = createErrorElement(nameInput, "Please enter a valid name.");
-
-    const surnameInput = document.getElementById("surname");
-    const surnameError = createErrorElement(surnameInput, "Please enter a valid surname.");
-
-    const dobInput = document.getElementById("dob");
-    const dobError = createErrorElement(dobInput, "Please select a valid date of birth.");
-
-    const genderInputs = document.getElementsByName("gender");
-    const genderError = createErrorElement(genderInputs[0].parentElement, "Please select a gender.");
-
-    const ageInput = document.getElementById("age");
-
-    // Event listener to calculate age based on Date of Birth input
-    dobInput.addEventListener("change", function () {
-        if (dobInput.value) {
-            const dob = new Date(dobInput.value);
-            const today = new Date();
-            let age = today.getFullYear() - dob.getFullYear();
-            const monthDiff = today.getMonth() - dob.getMonth();
-
-            // Adjust age if the birthday hasn't occurred yet this year
-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
-                age--;
-            }
-
-            ageInput.value = age >= 0 ? age : "";
-        }
-    });
-
-    // Phone selection dropdown
+    // Fields for price calculation
     const zoznam1 = document.getElementById("zoznam1");
     const zoznam2 = document.getElementById("zoznam2");
     const zoznam3 = document.getElementById("zoznam3");
+    const phonePriceElement = document.getElementById("phonePrice");
+    const accessoriesPriceElement = document.getElementById("accessoriesPrice");
+    const totalPriceElement = document.getElementById("totalPrice");
 
-    // Update Phone Model Dropdown Based on Brand Selection
-    zoznam1.addEventListener("change", function () {
-        const selectedBrand = zoznam1.value;
-        updatePhoneModels(selectedBrand);
-    });
+    const protectorCheckbox = document.getElementById("protectorCheckbox");
+    const caseCheckbox = document.getElementById("caseCheckbox");
+    const plainColorCase = document.getElementById("plainColorCase");
+    const imageCase = document.getElementById("imageCase");
+    const chargerCheckbox = document.getElementById("chargerCheckbox");
 
-    function updatePhoneModels(brand) {
+    let currentAccessoriesPrice = 0;
+    let currentPhonePrice = 0;
+
+    // Event listeners for price calculation
+    zoznam1.addEventListener("change", updatePhoneModels);
+    zoznam2.addEventListener("change", updateTotalPrice);
+    zoznam3.addEventListener("change", updatePhonePrice);
+    protectorCheckbox.addEventListener("change", updateAccessoryPrice);
+    caseCheckbox.addEventListener("change", updateAccessoryPrice);
+    plainColorCase.addEventListener("change", updateAccessoryPrice);
+    imageCase.addEventListener("change", updateAccessoryPrice);
+    chargerCheckbox.addEventListener("change", updateAccessoryPrice);
+
+    // Function to update phone models based on brand selection
+    function updatePhoneModels() {
         const models = {
             "apple": ["iPhone 12", "iPhone 13", "iPhone 14"],
             "samsung": ["Galaxy S21", "Galaxy Note 20", "Galaxy A52"],
@@ -57,68 +43,29 @@ document.addEventListener("DOMContentLoaded", function () {
             "oneplus": ["OnePlus 8", "OnePlus 9", "Nord"]
         };
 
-        // Clear existing options
+        const selectedBrand = zoznam1.value;
         zoznam2.innerHTML = '<option value="">Vyberte</option>';
 
-        if (models[brand]) {
-            models[brand].forEach(model => {
+        if (models[selectedBrand]) {
+            models[selectedBrand].forEach(model => {
                 const option = document.createElement("option");
                 option.value = model;
                 option.textContent = model;
                 zoznam2.appendChild(option);
             });
         }
+        updateTotalPrice();
     }
 
-    // Accessory section elements
-    const caseCheckbox = document.getElementById("caseCheckbox");
-    const caseOptions = document.getElementById("caseOptions");
-    const colorList = document.getElementById("colorList");
-    const imageList = document.getElementById("imageList");
-    const plainColorCase = document.getElementById("plainColorCase");
-    const imageCase = document.getElementById("imageCase");
+    // Function to update phone price based on memory selection
+    function updatePhonePrice() {
+        const selectedStorage = zoznam3.options[zoznam3.selectedIndex];
+        currentPhonePrice = selectedStorage ? parseInt(selectedStorage.getAttribute("data-price")) : 0;
+        phonePriceElement.textContent = `Total Phone Price: ${currentPhonePrice} EUR`;
+        updateTotalPrice();
+    }
 
-    // Event listener to show or hide case options
-    caseCheckbox.addEventListener("change", function () {
-        if (caseCheckbox.checked) {
-            caseOptions.style.display = "block";
-        } else {
-            caseOptions.style.display = "none";
-            colorList.style.display = "none";
-            imageList.style.display = "none";
-            plainColorCase.checked = false;
-            imageCase.checked = false;
-        }
-        updateAccessoryPrice();
-    });
-
-    // Show color options when "Plain Color Case" is selected
-    plainColorCase.addEventListener("change", function () {
-        if (plainColorCase.checked) {
-            colorList.style.display = "block";
-            imageList.style.display = "none";
-        }
-        updateAccessoryPrice();
-    });
-
-    // Show image options when "Case with Image" is selected
-    imageCase.addEventListener("change", function () {
-        if (imageCase.checked) {
-            imageList.style.display = "block";
-            colorList.style.display = "none";
-        }
-        updateAccessoryPrice();
-    });
-
-    // Function to update accessory price
-    const protectorCheckbox = document.getElementById("protectorCheckbox");
-    const chargerCheckbox = document.getElementById("chargerCheckbox");
-    const accessoriesPrice = document.getElementById("accessoriesPrice");
-    let currentAccessoriesPrice = 0;
-
-    protectorCheckbox.addEventListener("change", updateAccessoryPrice);
-    chargerCheckbox.addEventListener("change", updateAccessoryPrice);
-
+    // Function to update accessory price based on selected options
     function updateAccessoryPrice() {
         currentAccessoriesPrice = 0;
         if (protectorCheckbox.checked) currentAccessoriesPrice += 5;
@@ -129,84 +76,68 @@ document.addEventListener("DOMContentLoaded", function () {
             if (imageCase.checked) currentAccessoriesPrice += 15;
         }
 
-        accessoriesPrice.textContent = `Total Accessories Price: ${currentAccessoriesPrice} EUR`;
+        accessoriesPriceElement.textContent = `Total Accessories Price: ${currentAccessoriesPrice} EUR`;
         updateTotalPrice();
     }
 
+    // Function to update the total price
     function updateTotalPrice() {
-        const phonePrice = 0; // Placeholder, integrate with your existing phone price calculation
-        const total = phonePrice + currentAccessoriesPrice;
-        const totalPriceElement = document.getElementById("totalPrice");
+        const total = currentPhonePrice + currentAccessoriesPrice;
         totalPriceElement.textContent = `Total Price: ${total} EUR`;
     }
 
-    // Helper functions for form validation
-    form.addEventListener("submit", function (e) {
-        let isValid = true;
+    // Show the summary modal before form submission
+    showSummaryBtn.addEventListener("click", function () {
+        // Gather form data to display in the modal
+        const name = document.getElementById("name").value;
+        const surname = document.getElementById("surname").value;
+        const gender = document.querySelector("input[name='gender']:checked")?.value || "Not selected";
+        const dob = document.getElementById("dob").value;
+        const age = document.getElementById("age").value;
+        const email = document.getElementById("email").value;
+        const phoneBrand = document.getElementById("zoznam1").value;
+        const phoneModel = document.getElementById("zoznam2").value;
+        const memoryStorage = document.getElementById("zoznam3").value;
+        const protector = document.getElementById("protectorCheckbox").checked ? "Yes" : "No";
+        const caseType = document.getElementById("caseCheckbox").checked ? (document.getElementById("plainColorCase").checked ? "Plain Color Case" : document.getElementById("imageCase").checked ? "Case with Image" : "Not selected") : "No";
+        const charger = document.getElementById("chargerCheckbox").checked ? "Yes" : "No";
 
-        if (!validateEmail(emailInput.value)) {
-            emailError.style.display = "block";
-            isValid = false;
-        } else {
-            emailError.style.display = "none";
-        }
+        // Display summary
+        summaryContent.innerHTML = `
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Surname:</strong> ${surname}</p>
+            <p><strong>Gender:</strong> ${gender}</p>
+            <p><strong>Date of Birth:</strong> ${dob}</p>
+            <p><strong>Age:</strong> ${age}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Phone Brand:</strong> ${phoneBrand}</p>
+            <p><strong>Phone Model:</strong> ${phoneModel}</p>
+            <p><strong>Memory Storage:</strong> ${memoryStorage}</p>
+            <p><strong>Screen Protector:</strong> ${protector}</p>
+            <p><strong>Phone Case:</strong> ${caseType}</p>
+            <p><strong>Charger:</strong> ${charger}</p>
+            <p><strong>Total Price:</strong> ${document.getElementById("totalPrice").textContent}</p>
+        `;
 
-        if (nameInput.value.trim() === "") {
-            nameError.style.display = "block";
-            isValid = false;
-        } else {
-            nameError.style.display = "none";
-        }
-
-        if (surnameInput.value.trim() === "") {
-            surnameError.style.display = "block";
-            isValid = false;
-        } else {
-            surnameError.style.display = "none";
-        }
-
-        // Ensure at least one gender is selected
-        if (!isGenderSelected()) {
-            genderError.style.display = "block";
-            isValid = false;
-        } else {
-            genderError.style.display = "none";
-        }
-
-        if (dobInput.value === "") {
-            dobError.style.display = "block";
-            isValid = false;
-        } else {
-            dobError.style.display = "none";
-        }
-
-        // Prevent form submission if any validation fails
-        if (!isValid) {
-            e.preventDefault();
-            alert("Please correct the errors before submitting.");
-        }
+        // Show the modal
+        summaryModal.style.display = "block";
     });
 
-    function validateEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
-        return emailRegex.test(email) && email.split("@")[1].split(".").length > 1;
-    }
+    // Confirm and submit the form
+    confirmOrderBtn.addEventListener("click", function () {
+        summaryModal.style.display = "none";
+        form.submit(); // Submit the form after user confirms
+    });
 
-    function createErrorElement(inputElement, errorMessage) {
-        const errorElement = document.createElement("p");
-        errorElement.style.color = "red";
-        errorElement.style.display = "none";
-        errorElement.textContent = errorMessage;
-        inputElement.parentElement.appendChild(errorElement);
-        return errorElement;
-    }
+    // Close the modal
+    closeModal.addEventListener("click", function () {
+        summaryModal.style.display = "none";
+    });
 
-    function isGenderSelected() {
-        for (let i = 0; i < genderInputs.length; i++) {
-            if (genderInputs[i].checked) {
-                return true;
-            }
+    // Close the modal when clicking outside of it
+    window.addEventListener("click", function (e) {
+        if (e.target == summaryModal) {
+            summaryModal.style.display = "none";
         }
-        return false;
-    }
+    });
 });
