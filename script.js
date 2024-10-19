@@ -25,6 +25,35 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentAccessoriesPrice = 0;
     let currentPhonePrice = 0;
 
+    // Base prices for phone models
+    const phoneModelPrices = {
+        "apple": {
+            "iPhone 12": 600,
+            "iPhone 13": 700,
+            "iPhone 14": 800
+        },
+        "samsung": {
+            "Galaxy S21": 650,
+            "Galaxy Note 20": 750,
+            "Galaxy A52": 450
+        },
+        "xiaomi": {
+            "Redmi Note 10": 200,
+            "Mi 11": 400,
+            "Poco X3": 300
+        },
+        "huawei": {
+            "P30": 400,
+            "P40 Pro": 600,
+            "Mate 40": 700
+        },
+        "oneplus": {
+            "OnePlus 8": 500,
+            "OnePlus 9": 600,
+            "Nord": 350
+        }
+    };
+
     // Updated email validation function based on requirements
     function validateEmail(email) {
         const emailRegex = /^[^\s@]{3,}@[^\s@]+\.[a-zA-Z]{2,4}$/;
@@ -53,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Event listeners for price calculation
     zoznam1.addEventListener("change", updatePhoneModels);
-    zoznam2.addEventListener("change", updateTotalPrice);
+    zoznam2.addEventListener("change", updatePhonePrice);
     zoznam3.addEventListener("change", updatePhonePrice);
     protectorCheckbox.addEventListener("change", updateAccessoryPrice);
     caseCheckbox.addEventListener("change", updateAccessoryPrice);
@@ -63,32 +92,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Function to update phone models based on brand selection
     function updatePhoneModels() {
-        const models = {
-            "apple": ["iPhone 12", "iPhone 13", "iPhone 14"],
-            "samsung": ["Galaxy S21", "Galaxy Note 20", "Galaxy A52"],
-            "xiaomi": ["Redmi Note 10", "Mi 11", "Poco X3"],
-            "huawei": ["P30", "P40 Pro", "Mate 40"],
-            "oneplus": ["OnePlus 8", "OnePlus 9", "Nord"]
-        };
+        const models = phoneModelPrices[zoznam1.value];
 
-        const selectedBrand = zoznam1.value;
         zoznam2.innerHTML = '<option value="">Vyberte</option>';
 
-        if (models[selectedBrand]) {
-            models[selectedBrand].forEach(model => {
+        if (models) {
+            for (const model in models) {
                 const option = document.createElement("option");
                 option.value = model;
-                option.textContent = model;
+                option.textContent = `${model} - ${models[model]} EUR`;
                 zoznam2.appendChild(option);
-            });
+            }
         }
-        updateTotalPrice();
+        updatePhonePrice();
     }
 
-    // Function to update phone price based on memory selection
+    // Function to update phone price based on model and memory selection
     function updatePhonePrice() {
+        const selectedBrand = zoznam1.value;
+        const selectedModel = zoznam2.value;
         const selectedStorage = zoznam3.options[zoznam3.selectedIndex];
-        currentPhonePrice = selectedStorage ? parseInt(selectedStorage.getAttribute("data-price")) : 0;
+        let basePrice = 0;
+
+        if (selectedBrand && selectedModel) {
+            basePrice = phoneModelPrices[selectedBrand][selectedModel];
+        }
+
+        // Calculate additional cost based on memory storage
+        const storagePrice = selectedStorage ? parseInt(selectedStorage.getAttribute("data-price")) : 0;
+
+        currentPhonePrice = basePrice + storagePrice;
         phonePriceElement.textContent = `Total Phone Price: ${currentPhonePrice} EUR`;
         updateTotalPrice();
     }
@@ -130,12 +163,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const dob = document.getElementById("dob").value;
         const age = document.getElementById("age").value;
         const email = emailInput.value;
-        const phoneBrand = document.getElementById("zoznam1").value;
-        const phoneModel = document.getElementById("zoznam2").value;
-        const memoryStorage = document.getElementById("zoznam3").value;
-        const protector = document.getElementById("protectorCheckbox").checked ? "Yes" : "No";
-        const caseType = document.getElementById("caseCheckbox").checked ? (document.getElementById("plainColorCase").checked ? "Plain Color Case" : document.getElementById("imageCase").checked ? "Case with Image" : "Not selected") : "No";
-        const charger = document.getElementById("chargerCheckbox").checked ? "Yes" : "No";
+        const phoneBrand = zoznam1.value;
+        const phoneModel = zoznam2.value;
+        const memoryStorage = zoznam3.value;
+        const protector = protectorCheckbox.checked ? "Yes" : "No";
+        const caseType = caseCheckbox.checked ? (plainColorCase.checked ? "Plain Color Case" : imageCase.checked ? "Case with Image" : "Not selected") : "No";
+        const charger = chargerCheckbox.checked ? "Yes" : "No";
 
         // Display summary
         summaryContent.innerHTML = `
