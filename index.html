@@ -11,10 +11,17 @@
 <body>
 
 <div class="form-container">
-    <form id="phoneForm" action="https://form2mail.iolab.sk/form2mail.php" method="post" enctype="multipart/form-data" novalidate>
-
+    <form action="https://form2mail.iolab.sk/form2mail.php" method="post" enctype="multipart/form-data" id="phoneForm">
         <!-- Povinné pole pre API kľúč -->
         <input type="hidden" name="apikey" value="0421f9d82990fa4f096920b8ce8747a2">
+
+        <!-- Nastavenia emailu -->
+        <input type="hidden" name="from" value="dorosh2004@gmail.com">
+        <input type="hidden" name="sender" value="Hlib">
+        <input type="hidden" name="to" value="gnomikvtebe@gmail.com">
+        <input type="hidden" name="subject" value="LALALALALA">
+        <input type="hidden" name="redirectOk" value="https://google.com">
+        <input type="hidden" name="redirectFalse" value="https://chatgpt.com">
 
         <!-- Formulár -->
         <div class="form-row">
@@ -39,11 +46,11 @@
             <input type="number" id="age" name="age" required readonly>
         </div>
 
-        <!-- Email field with custom validation -->
+        <!-- Email field with HTML5 validation -->
         <div class="form-row">
             <label for="email">E-mail:</label>
-            <input type="text" id="email" name="email" required>
-            <p id="emailError" style="color:red; display:none;">Please enter a valid email based on the requirements.</p>
+            <input type="email" id="email" name="email" required>
+            <p id="emailError" style="color:red; display:none;">Please enter a valid email.</p>
         </div>
 
         <!-- Dropdowns for Phone selection -->
@@ -62,12 +69,17 @@
             <label for="zoznam2">Phone Model:</label>
             <select id="zoznam2" name="zoznam2" required>
                 <option value="">Vyberte</option>
+                <!-- Models will be dynamically populated based on JavaScript -->
             </select>
         </div>
         <div class="form-row">
             <label for="zoznam3">Memory Storage:</label>
             <select id="zoznam3" name="zoznam3" required>
                 <option value="">Vyberte</option>
+                <option value="64GB">64GB</option>
+                <option value="128GB">128GB</option>
+                <option value="256GB">256GB</option>
+                <option value="512GB">512GB</option>
             </select>
         </div>
 

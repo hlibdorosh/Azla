@@ -18,10 +18,57 @@ document.addEventListener("DOMContentLoaded", function () {
     const genderInputs = document.getElementsByName("gender");
     const genderError = createErrorElement(genderInputs[0].parentElement, "Please select a gender.");
 
+    const ageInput = document.getElementById("age");
+
+    // Event listener to calculate age based on Date of Birth input
+    dobInput.addEventListener("change", function () {
+        if (dobInput.value) {
+            const dob = new Date(dobInput.value);
+            const today = new Date();
+            let age = today.getFullYear() - dob.getFullYear();
+            const monthDiff = today.getMonth() - dob.getMonth();
+
+            // Adjust age if the birthday hasn't occurred yet this year
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+                age--;
+            }
+
+            ageInput.value = age >= 0 ? age : "";
+        }
+    });
+
     // Phone selection dropdown
     const zoznam1 = document.getElementById("zoznam1");
     const zoznam2 = document.getElementById("zoznam2");
     const zoznam3 = document.getElementById("zoznam3");
+
+    // Update Phone Model Dropdown Based on Brand Selection
+    zoznam1.addEventListener("change", function () {
+        const selectedBrand = zoznam1.value;
+        updatePhoneModels(selectedBrand);
+    });
+
+    function updatePhoneModels(brand) {
+        const models = {
+            "apple": ["iPhone 12", "iPhone 13", "iPhone 14"],
+            "samsung": ["Galaxy S21", "Galaxy Note 20", "Galaxy A52"],
+            "xiaomi": ["Redmi Note 10", "Mi 11", "Poco X3"],
+            "huawei": ["P30", "P40 Pro", "Mate 40"],
+            "oneplus": ["OnePlus 8", "OnePlus 9", "Nord"]
+        };
+
+        // Clear existing options
+        zoznam2.innerHTML = '<option value="">Vyberte</option>';
+
+        if (models[brand]) {
+            models[brand].forEach(model => {
+                const option = document.createElement("option");
+                option.value = model;
+                option.textContent = model;
+                zoznam2.appendChild(option);
+            });
+        }
+    }
 
     // Accessory section elements
     const caseCheckbox = document.getElementById("caseCheckbox");
@@ -141,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function validateEmail(email) {
-        const emailRegex = /^[^\s@]{3,}@[^\s@]+\.[a-zA-Z]{2,4}$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
         return emailRegex.test(email) && email.split("@")[1].split(".").length > 1;
     }
 
