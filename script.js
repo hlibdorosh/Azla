@@ -21,6 +21,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const plainColorCase = document.getElementById("plainColorCase");
     const imageCase = document.getElementById("imageCase");
     const chargerCheckbox = document.getElementById("chargerCheckbox");
+    const phoneError = document.getElementById("phoneError");
+    const phoneInput = document.getElementById("phone");
 
     let currentAccessoriesPrice = 0;
     let currentPhonePrice = 0;
@@ -69,6 +71,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         return false;
     }
+    function validatePhone(phone) {
+        const phoneRegex = /^\+\d{7,15}$/;
+        return phoneRegex.test(phone);
+    }
 
     // Show or hide email error based on validation
     emailInput.addEventListener("input", function () {
@@ -77,6 +83,16 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             emailError.style.display = "block";
             emailError.textContent = "Please enter a valid email address.";
+        }
+    });
+
+    // Show or hide phone error based on validation
+    phoneInput.addEventListener("input", function () {
+        if (validatePhone(phoneInput.value)) {
+            phoneError.style.display = "none";
+        } else {
+            phoneError.style.display = "block";
+            phoneError.textContent = "Please enter a valid phone number in international format (e.g., +123456789).";
         }
     });
 
@@ -163,6 +179,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const dob = document.getElementById("dob").value;
         const age = document.getElementById("age").value;
         const email = emailInput.value;
+        const phone = phoneInput.value;
         const phoneBrand = zoznam1.value;
         const phoneModel = zoznam2.value;
         const memoryStorage = zoznam3.value;
@@ -178,6 +195,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <p><strong>Date of Birth:</strong> ${dob}</p>
             <p><strong>Age:</strong> ${age}</p>
             <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Phone Number:</strong> ${phone}</p>
             <p><strong>Phone Brand:</strong> ${phoneBrand}</p>
             <p><strong>Phone Model:</strong> ${phoneModel}</p>
             <p><strong>Memory Storage:</strong> ${memoryStorage}</p>
