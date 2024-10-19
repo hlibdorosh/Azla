@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const showSummaryBtn = document.getElementById("showSummaryBtn");
     const confirmOrderBtn = document.getElementById("confirmOrderBtn");
     const closeModal = document.querySelector(".close");
+    const emailInput = document.getElementById("email");
+    const emailError = document.getElementById("emailError");
 
     // Fields for price calculation
     const zoznam1 = document.getElementById("zoznam1");
@@ -22,6 +24,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let currentAccessoriesPrice = 0;
     let currentPhonePrice = 0;
+
+    // Updated email validation function based on requirements
+    function validateEmail(email) {
+        const emailRegex = /^[^\s@]{3,}@[^\s@]+\.[a-zA-Z]{2,4}$/;
+        const parts = email.split("@");
+        if (parts.length === 2) {
+            const domainParts = parts[1].split(".");
+            return (
+                emailRegex.test(email) &&
+                domainParts.length >= 2 &&
+                domainParts[domainParts.length - 1].length >= 2 &&
+                domainParts[domainParts.length - 1].length <= 4
+            );
+        }
+        return false;
+    }
+
+    // Show or hide email error based on validation
+    emailInput.addEventListener("input", function () {
+        if (validateEmail(emailInput.value)) {
+            emailError.style.display = "none";
+        } else {
+            emailError.style.display = "block";
+            emailError.textContent = "Please enter a valid email address.";
+        }
+    });
 
     // Event listeners for price calculation
     zoznam1.addEventListener("change", updatePhoneModels);
@@ -88,13 +116,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Show the summary modal before form submission
     showSummaryBtn.addEventListener("click", function () {
+        // Check if the email is valid before showing the summary
+        if (!validateEmail(emailInput.value)) {
+            emailError.style.display = "block";
+            emailError.textContent = "Please enter a valid email address.";
+            return;
+        }
+
         // Gather form data to display in the modal
         const name = document.getElementById("name").value;
         const surname = document.getElementById("surname").value;
         const gender = document.querySelector("input[name='gender']:checked")?.value || "Not selected";
         const dob = document.getElementById("dob").value;
         const age = document.getElementById("age").value;
-        const email = document.getElementById("email").value;
+        const email = emailInput.value;
         const phoneBrand = document.getElementById("zoznam1").value;
         const phoneModel = document.getElementById("zoznam2").value;
         const memoryStorage = document.getElementById("zoznam3").value;
