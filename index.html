@@ -27,15 +27,20 @@
         <div class="form-row">
             <label for="name">Meno:</label>
             <input type="text" id="name" name="name" required>
+            <p id="nameError" style="color:red; display:none;">Please enter your name.</p>
+
         </div>
         <div class="form-row">
             <label for="surname">Priezvisko:</label>
             <input type="text" id="surname" name="surname" required>
+            <p id="surnameError" style="color:red; display:none;">Please enter your surname.</p>
+
         </div>
         <div class="form-row">
             Pohlavie:
             <label><input type="radio" name="gender" value="muz" required> Muž</label>
             <label><input type="radio" name="gender" value="zena"> Žena</label>
+
         </div>
         <div class="form-row">
             <label for="dob">Dátum narodenia:</label>

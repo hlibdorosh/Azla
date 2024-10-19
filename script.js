@@ -7,6 +7,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const closeModal = document.querySelector(".close");
     const emailInput = document.getElementById("email");
     const emailError = document.getElementById("emailError");
+    const nameInput = document.getElementById("name");
+    const nameError = document.getElementById("nameError");
+    const surnameError = document.getElementById("surnameError");
+    const surnameInput = document.getElementById("surname");
+    const gendrError = document.getElementById("gendrError");
+
 
     // Fields for price calculation
     const zoznam1 = document.getElementById("zoznam1");
@@ -75,6 +81,26 @@ document.addEventListener("DOMContentLoaded", function () {
         const phoneRegex = /^\+\d{7,15}$/;
         return phoneRegex.test(phone);
     }
+    // Show or hide name error based on validation
+    nameInput.addEventListener("input", function () {
+        if (nameInput.value.trim() !== "") {
+            nameError.style.display = "none";
+        } else {
+            nameError.style.display = "block";
+            nameError.textContent = "Please enter your name.";
+        }
+    });
+
+    // Show or hide surname error based on validation
+    surnameInput.addEventListener("input", function () {
+        if (surnameInput.value.trim() !== "") {
+            surnameError.style.display = "none";
+        } else {
+            surnameError.style.display = "block";
+            surnameError.textContent = "Please enter your surname.";
+        }
+    });
+
 
     // Show or hide email error based on validation
     emailInput.addEventListener("input", function () {
@@ -163,14 +189,46 @@ document.addEventListener("DOMContentLoaded", function () {
         totalPriceElement.textContent = `Total Price: ${total} EUR`;
     }
 
+    flag = 0;
+
+
+
     // Show the summary modal before form submission
     showSummaryBtn.addEventListener("click", function () {
         // Check if the email is valid before showing the summary
         if (!validateEmail(emailInput.value)) {
             emailError.style.display = "block";
-            emailError.textContent = "Please enter a valid email address.";
+            emailError.textContent = "Enter a valid email address! >:(";
+            flag = 1;
+        }
+        // Check if the name is not empty
+        const nameInput = document.getElementById("name");
+        if (nameInput.value.trim() === "") {
+            nameError.style.display = "block";
+            nameError.textContent = "Enter a name! >:(";
+            flag = 1;
+        }
+
+        // Check if the name is not empty
+        const surnameInput = document.getElementById("name");
+        if (nameInput.value.trim() === "") {
+            surnameError.style.display = "block";
+            surnameError.textContent = "Enter a surname! >:(";
+            flag = 1;
+        }
+
+        const phoneInput = document.getElementById("name");
+        if (nameInput.value.trim() === "") {
+            phoneError.style.display = "block";
+            phoneError.textContent = "What is your phone >:(";
+            flag = 1;
+        }
+
+        if (flag == 1) {
+            flag = 0;
             return;
         }
+
 
         // Gather form data to display in the modal
         const name = document.getElementById("name").value;
