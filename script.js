@@ -38,6 +38,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const dobInput = document.getElementById("dob");
     const ageInput = document.getElementById("age");
 
+    const elseCheckbox = document.getElementById("elseCheckbox");
+    const elseTextBox = document.getElementById("elseTextBox");
+
+
 
     let currentAccessoriesPrice = 0;
     let currentPhonePrice = 0;
@@ -204,6 +208,39 @@ document.addEventListener("DOMContentLoaded", function () {
     imageCase.addEventListener("change", updateAccessoryPrice);
     chargerCheckbox.addEventListener("change", updateAccessoryPrice);
 
+
+    caseCheckbox.addEventListener("change", function () {
+        const isChecked = caseCheckbox.checked;
+        const caseOptions = document.getElementById("caseOptions");
+        caseOptions.style.display = isChecked ? "block" : "none";
+        updateAccessoryPrice();
+
+        // Reset case-specific options when the checkbox is unchecked
+        if (!isChecked) {
+            plainColorCase.checked = false;
+            imageCase.checked = false;
+            document.getElementById("colorList").style.display = "none";
+            document.getElementById("imageList").style.display = "none";
+        }
+    });
+
+    plainColorCase.addEventListener("change", function () {
+        document.getElementById("colorList").style.display = plainColorCase.checked ? "block" : "none";
+        document.getElementById("imageList").style.display = "none";
+        updateAccessoryPrice();
+    });
+
+    imageCase.addEventListener("change", function () {
+        document.getElementById("imageList").style.display = imageCase.checked ? "block" : "none";
+        document.getElementById("colorList").style.display = "none";
+        updateAccessoryPrice();
+    });
+
+    elseCheckbox.addEventListener("change", function () {
+        elseTextBox.style.display = elseCheckbox.checked ? "block" : "none";
+    });
+
+
     // Update phone models based on brand selection
     function updatePhoneModels() {
         const models = phoneModelData[zoznam1.value];
@@ -345,6 +382,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const protector = protectorCheckbox.checked ? "Yes" : "No";
         const caseType = caseCheckbox.checked ? (plainColorCase.checked ? "Plain Color Case" : imageCase.checked ? "Case with Image" : "Not selected") : "No";
         const charger = chargerCheckbox.checked ? "Yes" : "No";
+        const specialRequests = specialRequestsInput.value;
+
 
 
 
@@ -364,6 +403,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <p><strong>Screen Protector:</strong> ${protector}</p>
             <p><strong>Phone Case:</strong> ${caseType}</p>
             <p><strong>Charger:</strong> ${charger}</p>
+                         
             <p><strong>Special Requests:</strong> ${specialRequestsInput.value}</p>
             <p><strong>Total Price:</strong> ${totalPriceElement.textContent}</p>
         `;
