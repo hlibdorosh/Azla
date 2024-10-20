@@ -32,6 +32,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const specialRequestsInput = document.getElementById("specialRequests");
 
+    const dobInput = document.getElementById("dob");
+    const ageInput = document.getElementById("age");
+
 
     let currentAccessoriesPrice = 0;
     let currentPhonePrice = 0;
@@ -64,6 +67,33 @@ document.addEventListener("DOMContentLoaded", function () {
             "Nord": { price: 350, storageOptions: { "64GB": 50, "128GB": 100 } }
         }
     };
+
+    dobInput.addEventListener("change", function () {
+        const dobValue = dobInput.value;
+        if (dobValue) {
+            const age = calculateAge(new Date(dobValue));
+            ageInput.value = age;
+        }
+    });
+
+    // Allow manual changes to age
+    ageInput.addEventListener("input", function () {
+        const manualAge = parseInt(ageInput.value, 10);
+        if (!isNaN(manualAge) && manualAge > 0) {
+            ageInput.value = manualAge;
+        }
+    });
+
+    // Function to calculate age
+    function calculateAge(birthDate) {
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    }
 
     // Add an event listener to the button
     showDivBtn.addEventListener("click", function () {
@@ -104,6 +134,8 @@ document.addEventListener("DOMContentLoaded", function () {
             nameError.textContent = "Please enter your name.";
         }
     });
+
+
 
     // Surname input validation
     surnameInput.addEventListener("input", function () {
@@ -284,6 +316,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const protector = protectorCheckbox.checked ? "Yes" : "No";
         const caseType = caseCheckbox.checked ? (plainColorCase.checked ? "Plain Color Case" : imageCase.checked ? "Case with Image" : "Not selected") : "No";
         const charger = chargerCheckbox.checked ? "Yes" : "No";
+
+
+
 
         // Display summary
         summaryContent.innerHTML = `
