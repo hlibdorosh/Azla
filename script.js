@@ -30,6 +30,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const imageCase = document.getElementById("imageCase");
     const chargerCheckbox = document.getElementById("chargerCheckbox");
 
+    const specialRequestsInput = document.getElementById("specialRequests");
+
+
     let currentAccessoriesPrice = 0;
     let currentPhonePrice = 0;
 
@@ -227,6 +230,13 @@ document.addEventListener("DOMContentLoaded", function () {
         totalPriceElement.textContent = `Total Price: ${total} EUR`;
     }
 
+
+    // Update character count as user types
+    specialRequestsInput.addEventListener("input", function () {
+        const currentLength = specialRequestsInput.value.length;
+        charCount.textContent = `${currentLength}/100 characters`;
+    });
+
     // Show the summary modal before form submission
     showSummaryBtn.addEventListener("click", function () {
         let flag = 0;
@@ -290,6 +300,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <p><strong>Screen Protector:</strong> ${protector}</p>
             <p><strong>Phone Case:</strong> ${caseType}</p>
             <p><strong>Charger:</strong> ${charger}</p>
+            <p><strong>Special Requests:</strong> ${specialRequestsInput.value}</p>
             <p><strong>Total Price:</strong> ${totalPriceElement.textContent}</p>
         `;
 

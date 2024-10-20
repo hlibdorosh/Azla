@@ -119,7 +119,6 @@
                         <option value="cityscape">Cityscape</option>
                         <option value="abstract">Abstract Art</option>
                         <option value="animals">Animals</option>
-                        <option value="custom">Custom Design</option>
                     </select>
                 </div>
             </div>
@@ -127,6 +126,14 @@
                 <label><input type="checkbox" id="chargerCheckbox" name="accessory" value="charger"> Charger (15 EUR)</label>
             </div>
         </div>
+        <p> Your special requests:</p>
+        <div class="form-row">
+            <label for="specialRequests">Special Requests (Max 100 characters):</label>
+            <textarea id="specialRequests" name="specialRequests" rows="4" maxlength="100" placeholder="Enter any special requests or instructions here..."></textarea>
+            <p id="charCount">0/100 characters</p>
+        </div>
+
+
 
         <!-- Total Accessories Price -->
         <div class="form-row">
