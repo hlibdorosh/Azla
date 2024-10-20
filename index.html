@@ -1,21 +1,15 @@
 <!DOCTYPE HTML>
 <html lang="sk">
-
 <head>
     <meta charset="utf-8">
     <title>Formulár</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <script src="script.js" defer></script>
 </head>
-
 <body>
-
 <div class="form-container">
     <form action="https://form2mail.iolab.sk/form2mail.php" method="post" enctype="multipart/form-data" id="phoneForm">
-        <!-- Povinné pole pre API kľúč -->
         <input type="hidden" name="apikey" value="0421f9d82990fa4f096920b8ce8747a2">
-
-        <!-- Nastavenia emailu -->
         <input type="hidden" name="from" value="dorosh2004@gmail.com">
         <input type="hidden" name="sender" value="Hlib">
         <input type="hidden" name="to" value="gnomikvtebe@gmail.com">
@@ -23,24 +17,21 @@
         <input type="hidden" name="redirectOk" value="https://youtube.com">
         <input type="hidden" name="redirectFalse" value="https://chatgpt.com">
 
-        <!-- Formulár -->
+        <!-- Form fields -->
         <div class="form-row">
             <label for="name">Meno:</label>
             <input type="text" id="name" name="name" required>
             <p id="nameError" style="color:red; display:none;">Please enter your name.</p>
-
         </div>
         <div class="form-row">
             <label for="surname">Priezvisko:</label>
             <input type="text" id="surname" name="surname" required>
             <p id="surnameError" style="color:red; display:none;">Please enter your surname.</p>
-
         </div>
         <div class="form-row">
             Pohlavie:
             <label><input type="radio" name="gender" value="muz" required> Muž</label>
             <label><input type="radio" name="gender" value="zena"> Žena</label>
-
         </div>
         <div class="form-row">
             <label for="dob">Dátum narodenia:</label>
@@ -51,16 +42,14 @@
             <input type="number" id="age" name="age" required readonly>
         </div>
 
-        <!-- Email field with HTML5 validation -->
         <div class="form-row">
             <label for="email">E-mail:</label>
             <input type="email" id="email" name="email" required>
             <p id="emailError" style="color:red; display:none;">Please enter a valid email.</p>
         </div>
-        <!-- Phone Number field -->
         <div class="form-row">
             <label for="phone">Phone Number (International Format):</label>
-            <input type="tel" class = "phone-input" id="phone" name="phone" placeholder="+1234567890" required pattern="^\+\d{7,15}$">
+            <input type="tel" class="phone-input" id="phone" name="phone" placeholder="+1234567890" required pattern="^\+\d{7,15}$">
             <p id="phoneError" style="color:red; display:none;">Please enter a valid phone number in international format (e.g., +123456789).</p>
         </div>
 
@@ -86,10 +75,6 @@
             <label for="zoznam3">Memory Storage:</label>
             <select id="zoznam3" name="zoznam3" required>
                 <option value="">Vyberte</option>
-                <option value="64GB" data-price="50">64GB - 50 EUR</option>
-                <option value="128GB" data-price="100">128GB - 100 EUR</option>
-                <option value="256GB" data-price="150">256GB - 150 EUR</option>
-                <option value="512GB" data-price="200">512GB - 200 EUR</option>
             </select>
         </div>
 
@@ -156,7 +141,6 @@
         <div class="form-row full-width">
             <button type="button" id="showSummaryBtn">Odoslať</button>
         </div>
-
     </form>
 </div>
 
@@ -166,24 +150,20 @@
         <span class="close">&times;</span>
         <h2>Order Summary</h2>
         <div id="summaryContent"></div>
-        <button  id = "confirmOrderBtn" >Confirm Order</button>
+        <button id="confirmOrderBtn">Confirm Order</button>
     </div>
 </div>
 
-</body>
-
 <footer>
-    <button  id="showDivBtn">Show Hidden Content</button>
-
+    <button id="showDivBtn">Show Hidden Content</button>
     <div id="hiddenDiv" style="display: none;">
         <p>By</p>
-        <ol >
-        <li>Hlib Dorosh</li>
-        <li> Chat GPT-4</li>
-        <li> GitHub copilot</li>
+        <ol>
+            <li>Hlib Dorosh</li>
+            <li>Chat GPT-4</li>
+            <li>GitHub Copilot</li>
         </ol>
     </div>
-
 </footer>
-
+</body>
 </html>
