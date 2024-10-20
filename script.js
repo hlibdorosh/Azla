@@ -16,6 +16,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const showDivBtn = document.getElementById("showDivBtn");
     const hiddenDiv = document.getElementById("hiddenDiv");
 
+    const ageError = document.getElementById("ageError");
+
+
     // Fields for price calculation
     const zoznam1 = document.getElementById("zoznam1");
     const zoznam2 = document.getElementById("zoznam2");
@@ -132,6 +135,25 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             nameError.style.display = "block";
             nameError.textContent = "Please enter your name.";
+        }
+    });
+
+    //age input validation
+    ageInput.addEventListener("input", function () {
+        if (ageInput.value >= 0) {
+            ageError.style.display = "none";
+        } else {
+            ageError.style.display = "block";
+            ageError.textContent = "Please enter a valid age!";
+        }
+    });
+    // dob input validation
+    dobInput.addEventListener("input", function () {
+        if (dobInput.value.trim() !== "") {
+            ageError.style.display = "none";
+        } else {
+            ageError.style.display = "block";
+            ageError.textContent = "Please enter your date of birth.";
         }
     });
 
@@ -295,6 +317,13 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!validatePhone(phoneInput.value)) {
             phoneError.style.display = "block";
             phoneError.textContent = "Please enter a valid phone number in international format (e.g., +123456789).";
+            flag = 1;
+        }
+
+        //check if age >= 0
+        if (ageInput.value < 0) {
+            ageError.style.display = "block";
+            ageError.textContent = "Please enter a valid age!";
             flag = 1;
         }
 
