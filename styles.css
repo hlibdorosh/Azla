@@ -192,6 +192,18 @@ form input[type="submit"]:hover {
 }
 
 
+#showDivBtn {
+    background-color: #666666 ;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+#showDivBtn:hover {
+    background-color: #333333;
+}
+
+
 /* Adjust the label to be aligned with a larger input */
 .custom-note-container label {
     font-weight: bold;
@@ -207,6 +219,35 @@ form input[type="submit"]:hover {
 .phone-input select, .phone-input input {
     flex: 1;
 }
+
+/* Style for the hidden div when it is hidden */
+#hiddenDiv {
+    display: none; /* Keep it hidden initially */
+    background-color: #f8f8f8; /* Light background color */
+    padding: 15px; /* Add some padding */
+    border: 1px solid #ccc; /* Add a border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    max-width: 400px; /* Set a maximum width */
+    font-size: 16px; /* Text size */
+    transition: all 0.3s ease; /* Smooth transition */
+}
+
+/* Make the hidden div visible when JavaScript toggles the class */
+#hiddenDiv.show {
+    display: block; /* Change from none to block */
+}
+
+/* Optional: Style the list inside the hidden div */
+#hiddenDiv ol {
+    padding-left: 20px; /* Indent the list */
+}
+
+#hiddenDiv li {
+    margin-bottom: 5px; /* Space between list items */
+}
+
+
 
 
 /* Make the form responsive for mobile */

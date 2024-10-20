@@ -14,6 +14,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const gendrError = document.getElementById("gendrError");
 
 
+    const showDivBtn = document.getElementById("showDivBtn");
+    const hiddenDiv = document.getElementById("hiddenDiv");
+
     // Fields for price calculation
     const zoznam1 = document.getElementById("zoznam1");
     const zoznam2 = document.getElementById("zoznam2");
@@ -62,7 +65,19 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 
+// Add an event listener to the button
+    showDivBtn.addEventListener("click", function () {
+        // Toggle the display property
+        if (hiddenDiv.style.display === "none" || hiddenDiv.style.display === "") {
+            hiddenDiv.style.display = "block"; // Show the div
+        } else {
+            hiddenDiv.style.display = "none"; // Hide the div
+        }
+    });
+
     // Updated email validation function based on requirements
+
+
     function validateEmail(email) {
         const emailRegex = /^[^\s@]{3,}@[^\s@]+\.[a-zA-Z]{2,4}$/;
         const parts = email.split("@");
